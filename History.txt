@@ -1,6 +1,21 @@
 VERSION HISTORY
 
 
+v14.6
+---------------------------------------------------------------------
+
+- now "-rxboost" option also supports old AMD cards (Hawaii, Tonga, Tahiti, Pitcairn), use "-rxboost 1" to improve hashrate up to 5% by applying some additional memory timings.
+- now "-rxboost" option supports all AMD drivers.
+- now "-strap" for AMD cards also supports AMD blockchain drivers.
+- some changes to further reduce stale shares a bit.
+- added "-minspeedtime" option.
+- added statistics for shares accepting time (min/max/average), press "s" to see it.
+- updated Remote Manager to show shares accepting time.
+- Linux version build with some performance improvements.
+- a few minor bug fixes and improvements.
+
+
+
 v14.5
 ---------------------------------------------------------------------
 

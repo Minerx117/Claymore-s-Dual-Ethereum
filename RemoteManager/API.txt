@@ -37,6 +37,7 @@ Same as "miner_getstat1" but also appends additional information:
 - DCR rejected shares for every GPU.
 - DCR invalid shares for every GPU.
 - PCI bus index for every GPU.
+- min/max/average time (in ms) of accepting shares for current pool (1 hour).
 
 
 

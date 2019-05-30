@@ -156,8 +156,10 @@ COMMAND LINE OPTIONS:
 	"-r 1" closes miner and execute "reboot.bat" file ("reboot.bash" or "reboot.sh" for Linux version) in the miner directory (if exists) if some GPU failed. 
 	So you can create "reboot.bat" file and perform some actions, for example, reboot system if you put this line there: "shutdown /r /t 5 /f".
 
--minspeed	minimal speed for ETH, in MH/s. If miner cannot reach this speed for 5 minutes for any reason, miner will be restarted (or "reboot.bat" will be executed if "-r 1" is set). Default value is 0 (feature disabled).
-	You can also specify negative values if you don't want to restart miner due to pool connection issues; for example, "-minspeed -50" will restart miner only if it cannot reach 50Mh/s at good pool connection.
+-minspeed	minimal speed for ETH, in MH/s. If miner cannot reach this speed for 5 minutes for any reason (you can change this timeout with "-minspeedtime" option), miner will be restarted (or "reboot.bat" will be executed if "-r 1" is set). Default value is 0 (feature disabled).
+	You can also specify negative values if you don't want to restart miner due to pool connection issues; for example, "-minspeed 50" will restart miner only if it cannot reach 50Mh/s at good pool connection.
+
+-minspeedtime	timeout for "-minspeed" option, in minutes. Default value is "5".
 
 -retrydelay	delay, in seconds, between connection attempts. Default values is "20". Specify "-retrydelay -1" if you don't need reconnection, in this mode miner will exit if connection is lost.
 
@@ -274,12 +276,12 @@ COMMAND LINE OPTIONS:
 
 -showdiff	use "-showdiff 1" to show difficulty for every ETH share and to display maximal found share difficulty when you press "s" key. Default value is "0".
 
--driver	installs or uninstalls the driver which is required to apply memory timings (straps) and closes miner after it. This option is available for Windows only and requires admin rights to execute, 
+-driver	installs or uninstalls the driver which is required to apply memory timings (straps), enables or disables Windows Test Mode and closes miner after it. This option is available for Windows only and requires admin rights to execute, 
 	also you need to disable "Secure Boot" in UEFI BIOS if you use it.
-	Use "-driver install" to install the driver, "-driver uninstall" to uninstall the driver. Since the driver is not signed, miner enables "Test mode" in Windows, you need to reboot to apply it.
+	Use "-driver install" to install the driver and enable Windows Test Mode, "-driver uninstall" to uninstall the driver and disable Windows Test Mode. Since the driver is not signed, miner enables "Test mode" in Windows, you need to reboot to apply it.
 	This option is necessary only if you want to install or uninstall the driver separately, miner anyway will install the driver automatically if "-strap" option is used.
 
--strap	applies specified memory timings (strap). This option is available for Windows only and requires AMD drivers 18.x or newer (most tests were performed on 19.4.3) for AMD cards, any recent Nvidia drivers for Nvidia cards. 
+-strap	applies specified memory timings (strap). This option is available for Windows only and requires AMD blockchain drivers or drivers 18.x or newer (most tests were performed on 19.4.3) for AMD cards, any recent Nvidia drivers for Nvidia cards. 
 	Currently Polaris, Vega and Nvidia 10xx cards are supported, support for other cards will be added later. 
 	Miner has built-in straps database, all straps are separated by memory (4GB or 8GB) and memory type (Samsung, Elpida, Hynix, Micron). 
 	Straps are sorted by intensity, i.e. "-strap 1" supports higher memory clock than "-strap 2", etc. For the best hashrate you must also set high memory clock, so "-strap 1" is a good start point for tests.
@@ -303,7 +305,7 @@ COMMAND LINE OPTIONS:
 	You can also specify values for every card, for example "-sintensity 10,0,100,30".
 	Default value is "0" which means no changes in default strap settings.
 
--rxboost	enables additional boost for AMD Polaris cards. This option is available for Windows only. It mproves hashrate by about 5% by applying some additional memory settings. 
+-rxboost	enables additional boost for AMD Polaris cards and old AMD cards (Hawaii, Tonga, Tahiti, Pitcairn). This option is available for Windows only. It mproves hashrate up to 5% by applying some additional memory settings. 
 	To enable it, use "-rxboost 1", you can use your own straps or use "-strap" option, you will get boost anyway. If your card is unstable, you can specify custome boost value (2..100), for example, "-rxboost 5".
 	You can also specify values for every card, for example "-rxboost 1,0,10,30".
 	Default value is "0" which means no boost at all.
