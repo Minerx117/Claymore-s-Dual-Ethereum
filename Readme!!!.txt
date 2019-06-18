@@ -157,7 +157,7 @@ COMMAND LINE OPTIONS:
 	So you can create "reboot.bat" file and perform some actions, for example, reboot system if you put this line there: "shutdown /r /t 5 /f".
 
 -minspeed	minimal speed for ETH, in MH/s. If miner cannot reach this speed for 5 minutes for any reason (you can change this timeout with "-minspeedtime" option), miner will be restarted (or "reboot.bat" will be executed if "-r 1" is set). Default value is 0 (feature disabled).
-	You can also specify negative values if you don't want to restart miner due to pool connection issues; for example, "-minspeed 50" will restart miner only if it cannot reach 50Mh/s at good pool connection.
+	You can also specify negative values if you don't want to restart miner due to pool connection issues; for example, "-minspeed -50" will restart miner only if it cannot reach 50Mh/s at good pool connection.
 
 -minspeedtime	timeout for "-minspeed" option, in minutes. Default value is "5".
 
@@ -276,10 +276,13 @@ COMMAND LINE OPTIONS:
 
 -showdiff	use "-showdiff 1" to show difficulty for every ETH share and to display maximal found share difficulty when you press "s" key. Default value is "0".
 
--driver	installs or uninstalls the driver which is required to apply memory timings (straps), enables or disables Windows Test Mode and closes miner after it. This option is available for Windows only and requires admin rights to execute, 
-	also you need to disable "Secure Boot" in UEFI BIOS if you use it.
-	Use "-driver install" to install the driver and enable Windows Test Mode, "-driver uninstall" to uninstall the driver and disable Windows Test Mode. Since the driver is not signed, miner enables "Test mode" in Windows, you need to reboot to apply it.
-	This option is necessary only if you want to install or uninstall the driver separately, miner anyway will install the driver automatically if "-strap" option is used.
+-showpower	displays statistics about GPU power consumption when you press "s" key. Default value is "1" (show statistics about power consumption), use "-showpower 0" to hide it.
+
+-driver	installs or uninstalls the driver which is required to apply memory timings (straps), enables or disables Windows Test Mode if necessary and closes miner after it. This option is available for Windows only and requires admin rights to execute. Miner can use signed or unsigned driver, unsigned driver requires Windows Test Mode (also you need to disable "Secure Boot" in UEFI BIOS).
+	Use "-driver install" to install signed driver. 
+	Use "-driver install_test" to install unsigned driver and enable Windows Test Mode, you need to reboot to apply it.
+	Use "-driver uninstall" to uninstall the driver and disable Windows Test Mode.
+	This option is necessary only if you want to install or uninstall the driver separately, miner anyway installs signed driver automatically if "-strap" option is used.
 
 -strap	applies specified memory timings (strap). This option is available for Windows only and requires AMD blockchain drivers or drivers 18.x or newer (most tests were performed on 19.4.3) for AMD cards, any recent Nvidia drivers for Nvidia cards. 
 	Currently Polaris, Vega and Nvidia 10xx cards are supported, support for other cards will be added later. 
@@ -324,6 +327,36 @@ You can also use environment variables in "epools.txt" and "config.txt" files. F
 
 
 SAMPLE USAGE
+
+Ethereum-only mining:
+
+ ethermine:
+	EthDcrMiner64.exe -epool ssl://eu1.ethermine.org:5555 -ewal 0xD69af2A796A737A103F12d2f0BCC563a13900E6F -epsw x
+
+ ethpool:
+	EthDcrMiner64.exe -epool us1.ethpool.org:3333 -ewal 0xD69af2A796A737A103F12d2f0BCC563a13900E6F -epsw x
+
+ sparkpool:
+	EthDcrMiner64.exe -epool eu.sparkpool.com:3333 -ewal 0xD69af2A796A737A103F12d2f0BCC563a13900E6F -epsw x
+
+ f2pool:
+	EthDcrMiner64.exe -epool eth.f2pool.com:8008 -ewal 0xd69af2a796a737a103f12d2f0bcc563a13900e6f -epsw x -eworker rig1
+
+ nanopool:
+	EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal 0xd69af2a796a737a103f12d2f0bcc563a13900e6f -epsw x -eworker rig1
+
+ nicehash:
+	EthDcrMiner64.exe -epool stratum+tcp://daggerhashimoto.eu.nicehash.com:3353 -ewal 1LmMNkiEvjapn5PRY8A9wypcWJveRrRGWr -epsw x -esm 3 -allpools 1 -estale 0
+
+Ethereum forks mining:
+
+	EthDcrMiner64.exe -epool exp-us.dwarfpool.com:8018 -ewal 0xd69af2a796a737a103f12d2f0bcc563a13900e6f -epsw x -allcoins -1
+
+Ethereum SOLO mining (assume geth is on 192.168.0.1:8545):
+
+	EthDcrMiner64.exe -epool http://192.168.0.1:8545
+
+
 
 Dual mining:
 
@@ -385,33 +418,6 @@ EthDcrMiner64.exe -epool stratum+tcp://daggerhashimoto.eu.nicehash.com:3353 -ewa
 
 
 
-Ethereum-only mining:
-
- ethpool:
-	EthDcrMiner64.exe -epool us1.ethpool.org:3333 -ewal 0xD69af2A796A737A103F12d2f0BCC563a13900E6F -epsw x
-
- sparkpool:
-	EthDcrMiner64.exe -epool eu.sparkpool.com:3333 -ewal 0xD69af2A796A737A103F12d2f0BCC563a13900E6F -epsw x
-
- f2pool:
-	EthDcrMiner64.exe -epool eth.f2pool.com:8008 -ewal 0xd69af2a796a737a103f12d2f0bcc563a13900e6f -epsw x -eworker rig1
-
- nanopool:
-	EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal 0xd69af2a796a737a103f12d2f0bcc563a13900e6f -epsw x -eworker rig1
-
- nicehash:
-	EthDcrMiner64.exe -epool stratum+tcp://daggerhashimoto.eu.nicehash.com:3353 -ewal 1LmMNkiEvjapn5PRY8A9wypcWJveRrRGWr -epsw x -esm 3 -allpools 1 -estale 0
-
-Ethereum forks mining:
-
-	EthDcrMiner64.exe -epool exp-us.dwarfpool.com:8018 -ewal 0xd69af2a796a737a103f12d2f0bcc563a13900e6f -epsw x -allcoins -1
-
-Ethereum SOLO mining (assume geth is on 192.168.0.1:8545):
-
-	EthDcrMiner64.exe -epool http://192.168.0.1:8545
-
-
-
 FINE-TUNING
 
 Dual mode: change "-dcri" option value with "+/-" keys in runtime to find best speeds.
@@ -463,7 +469,7 @@ KNOWN ISSUES
 
 TROUBLESHOOTING
 
-1. Install Catalyst v15.12 for old AMD cards; for Fury, Polaris and Vega cards use latest blockchain drivers.
+1. Make sure you use recent video drivers.
 2. Disable overclocking.
 3. Set environment variables as described above.
 4. Set Virtual Memory 16 GB or more.

@@ -1,6 +1,19 @@
 VERSION HISTORY
 
 
+v14.7
+---------------------------------------------------------------------
+
+- now the miner driver does not require switching Windows to Test Mode. If you want to turn Test Mode off, use "-driver uninstall" option (with admin rights) and reboot, 
+	then start miner with admin rights to install new driver automatically when necessary (or use "-driver install" option directly). 
+	If you have any problems with signed driver you can use "-driver install_test" option, it uses old approach: enables Test Mode (reboot is required) and installs unsigned driver.
+- added "-showpower" option for stats about GPU power consumption, press "s" to see it. Both AMD and Nvidia cards are supported, except Linux gpu-pro drivers and Radeon7 cards.
+- updated Remote Manager to show total power consumption.
+- fixed issue with "-logsmaxsize" option when "-logfile" option is used to specify directory for log files.
+- a few minor bug fixes and improvements.
+
+
+
 v14.6
 ---------------------------------------------------------------------
 
